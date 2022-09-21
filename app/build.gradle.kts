@@ -59,10 +59,10 @@ dependencies {
     implementation(com.aej.buildsrc.Android.TestLibs.extJunit)
     implementation(com.aej.buildsrc.Android.TestLibs.espressoCore)
 
-    implementation(com.aej.buildsrc.Android.TestLibs.coreTesting)
-    implementation(com.aej.buildsrc.Android.TestLibs.mockitoCore)
-    implementation(com.aej.buildsrc.Android.TestLibs.mockitoKotlin)
-    implementation(com.aej.buildsrc.Android.TestLibs.mockitoAndroid)
+    testImplementation(com.aej.buildsrc.Android.TestLibs.coreTesting)
+    testImplementation(com.aej.buildsrc.Android.TestLibs.mockitoCore)
+    testImplementation(com.aej.buildsrc.Android.TestLibs.mockitoKotlin)
+    androidTestImplementation(com.aej.buildsrc.Android.TestLibs.mockitoAndroid)
 
     implementation(com.aej.buildsrc.Android.Jetpack.activityKtx)
     implementation(com.aej.buildsrc.Android.Jetpack.lifecycleExtensions)

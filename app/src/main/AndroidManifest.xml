@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.aej.efisheryandroidassessment">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".FishApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

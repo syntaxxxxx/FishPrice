@@ -47,6 +47,9 @@ android {
             option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {

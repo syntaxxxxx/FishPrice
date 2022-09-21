@@ -4,7 +4,7 @@ import com.aej.efisheryandroidassessment.common.loadEmptyObjectListJson
 import com.aej.efisheryandroidassessment.data.FishService
 import com.aej.efisheryandroidassessment.data.source.RemoteDataSource
 import com.aej.efisheryandroidassessment.data.source.RemoteDataSourceImpl
-import com.aej.efisheryandroidassessment.entity.FishDtoBean
+import com.aej.efisheryandroidassessment.data.entity.FishDtoBean
 import com.google.gson.reflect.TypeToken
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before

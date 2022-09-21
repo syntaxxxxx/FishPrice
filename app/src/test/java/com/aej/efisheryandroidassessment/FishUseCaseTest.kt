@@ -14,6 +14,8 @@ class FishUseCaseTest {
     private val repository = mock(FishRepository::class.java)
     private lateinit var useCase: FishUseCase
 
+    private val throwable = Throwable("Errors")
+
     @Before
     fun setup() {
         useCase = FishUseCase(repository)
@@ -36,6 +38,20 @@ class FishUseCaseTest {
             }
             assertComplete()
             assertNoErrors()
+        }
+
+        verify(repository, atLeastOnce()).fishPrice()
+    }
+
+
+    @Test
+    fun `search fish price form repository with errors`() {
+        `when`(repository.fishPrice()).thenReturn(
+            Single.error(throwable)
+        )
+
+        useCase.execute(Unit).test().apply {
+            assertError(throwable)
         }
 
         verify(repository, atLeastOnce()).fishPrice()

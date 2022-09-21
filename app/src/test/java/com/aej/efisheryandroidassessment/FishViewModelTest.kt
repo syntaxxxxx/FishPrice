@@ -21,6 +21,8 @@ class FishViewModelTest {
     private lateinit var viewModel: FishViewModel
     private val observer = mock<Observer<FishUiState>>()
 
+    private val throwable = Throwable("Errors")
+
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
@@ -64,6 +66,24 @@ class FishViewModelTest {
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowEmpty)
+
+        verifyNoMoreInteractions(useCase, observer)
+        clearInvocations(useCase, observer)
+    }
+
+    @Test
+    fun`search fish price and return error state`() {
+
+        `when`(useCase.execute(Unit)).thenReturn(
+            Single.error(throwable)
+        )
+
+        viewModel.fishPrice()
+
+        verify(useCase, atLeastOnce()).execute(Unit)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.Error(throwable))
 
         verifyNoMoreInteractions(useCase, observer)
         clearInvocations(useCase, observer)

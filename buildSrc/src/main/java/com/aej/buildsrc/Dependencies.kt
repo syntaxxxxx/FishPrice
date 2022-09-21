@@ -41,6 +41,7 @@ object Android {
         const val mockitoKotlin = "com.nhaarman:mockito-kotlin:1.6.0"
         const val mockitoCore = "org.mockito:mockito-core:3.8.0"
         const val mockitoAndroid = "org.mockito:mockito-android:3.8.0"
+        const val mockitoInline = "org.mockito:mockito-inline:3.11.2"
     }
 
     object Network {

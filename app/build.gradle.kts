@@ -63,6 +63,7 @@ dependencies {
     testImplementation(com.aej.buildsrc.Android.TestLibs.mockitoCore)
     testImplementation(com.aej.buildsrc.Android.TestLibs.mockitoKotlin)
     androidTestImplementation(com.aej.buildsrc.Android.TestLibs.mockitoAndroid)
+    testImplementation(com.aej.buildsrc.Android.TestLibs.mockitoInline)
 
     implementation(com.aej.buildsrc.Android.Jetpack.activityKtx)
     implementation(com.aej.buildsrc.Android.Jetpack.lifecycleExtensions)

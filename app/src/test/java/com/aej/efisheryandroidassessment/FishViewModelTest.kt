@@ -51,6 +51,24 @@ class FishViewModelTest {
         clearInvocations(useCase, observer)
     }
 
+    @Test
+    fun`search fish price and return empty list of fish price`() {
+
+        `when`(useCase.execute(Unit)).thenReturn(
+            Single.just(emptyList())
+        )
+
+        viewModel.fishPrice()
+
+        verify(useCase, atLeastOnce()).execute(Unit)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.ShowEmpty)
+
+        verifyNoMoreInteractions(useCase, observer)
+        clearInvocations(useCase, observer)
+    }
+
     @After
     fun tearDown() {
         SchedulersTrampoline.tearDown()

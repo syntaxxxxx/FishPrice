@@ -22,6 +22,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://stein.efishery.com/\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(

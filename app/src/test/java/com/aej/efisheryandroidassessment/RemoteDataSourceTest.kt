@@ -16,6 +16,8 @@ class RemoteDataSourceTest {
     private val fishService = mock(FishService::class.java)
     private lateinit var dataSource: RemoteDataSource
 
+    val throwable = Throwable("Errors")
+
     @Before
     fun setup() {
         dataSource = RemoteDataSourceImpl(service = fishService)
@@ -40,6 +42,19 @@ class RemoteDataSourceTest {
             }
             assertComplete()
             assertNoErrors()
+        }
+
+        verify(fishService, atLeastOnce()).fishPrice()
+    }
+
+    @Test
+    fun `search fish price form service with errors`() {
+        `when`(fishService.fishPrice()).thenReturn(
+            Single.error(throwable)
+        )
+
+        dataSource.fishPrice().test().apply {
+            assertError(throwable)
         }
 
         verify(fishService, atLeastOnce()).fishPrice()

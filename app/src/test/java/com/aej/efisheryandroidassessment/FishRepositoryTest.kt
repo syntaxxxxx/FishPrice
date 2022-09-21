@@ -1,11 +1,8 @@
 package com.aej.efisheryandroidassessment
 
-import com.aej.efisheryandroidassessment.common.loadEmptyObjectListJson
 import com.aej.efisheryandroidassessment.data.FishRepositoryImpl
 import com.aej.efisheryandroidassessment.data.source.RemoteDataSource
 import com.aej.efisheryandroidassessment.domain.FishRepository
-import com.aej.efisheryandroidassessment.entity.FishDtoBean
-import com.google.gson.reflect.TypeToken
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
 import org.junit.Test
@@ -24,7 +21,7 @@ class FishRepositoryTest {
     }
 
     @Test
-    fun `search fish price form remote with success`() {
+    fun `search fish price from remote with success`() {
         Mockito.`when`(dataSource.fishPrice()).thenReturn(
             Single.just(
                 dummyListFishDtoBean
@@ -45,7 +42,7 @@ class FishRepositoryTest {
     }
 
     @Test
-    fun `search fish price form remote with errors`() {
+    fun `search fish price from remote with errors`() {
         Mockito.`when`(dataSource.fishPrice()).thenReturn(
             Single.error(throwable)
         )

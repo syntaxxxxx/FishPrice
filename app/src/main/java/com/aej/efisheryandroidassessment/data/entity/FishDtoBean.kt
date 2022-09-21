@@ -1,6 +1,6 @@
 package com.aej.efisheryandroidassessment.data.entity
 
-import com.aej.efisheryandroidassessment.domain.FishDomainModel
+import com.aej.efisheryandroidassessment.domain.entity.FishDomainModel
 import com.google.gson.annotations.SerializedName
 
 data class FishDtoBean(

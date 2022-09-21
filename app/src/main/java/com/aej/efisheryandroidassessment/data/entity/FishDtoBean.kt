@@ -1,4 +1,4 @@
-package com.aej.efisheryandroidassessment.entity
+package com.aej.efisheryandroidassessment.data.entity
 
 import com.aej.efisheryandroidassessment.domain.FishDomainModel
 import com.google.gson.annotations.SerializedName

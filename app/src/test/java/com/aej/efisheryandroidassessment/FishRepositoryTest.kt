@@ -16,6 +16,8 @@ class FishRepositoryTest {
     private val dataSource = Mockito.mock(RemoteDataSource::class.java)
     private lateinit var repository: FishRepository
 
+    private val throwable = Throwable("Errors")
+
     @Before
     fun setup() {
         repository = FishRepositoryImpl(dataSource = dataSource)
@@ -37,6 +39,19 @@ class FishRepositoryTest {
             }
             assertComplete()
             assertNoErrors()
+        }
+
+        Mockito.verify(dataSource, Mockito.atLeastOnce()).fishPrice()
+    }
+
+    @Test
+    fun `search fish price form remote with errors`() {
+        Mockito.`when`(dataSource.fishPrice()).thenReturn(
+            Single.error(throwable)
+        )
+
+        repository.fishPrice().test().apply {
+            assertError(throwable)
         }
 
         Mockito.verify(dataSource, Mockito.atLeastOnce()).fishPrice()

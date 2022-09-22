@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.aej.efisheryandroidassessment.common.SchedulersTrampoline
 import com.aej.efisheryandroidassessment.domain.FishUseCase
+import com.aej.efisheryandroidassessment.domain.OptionAreaUseCase
 import com.aej.efisheryandroidassessment.presentation.FishUiState
 import com.aej.efisheryandroidassessment.presentation.FishViewModel
 import io.reactivex.rxjava3.core.Single
@@ -17,7 +18,8 @@ import org.mockito.MockitoAnnotations
 
 class FishViewModelTest {
 
-    private val useCase = mock(FishUseCase::class.java)
+    private val fishUseCase = mock(FishUseCase::class.java)
+    private val optionAreaUseCase = mock(OptionAreaUseCase::class.java)
     private lateinit var viewModel: FishViewModel
     private val observer = mock<Observer<FishUiState>>()
 
@@ -32,7 +34,7 @@ class FishViewModelTest {
     fun setup() {
         MockitoAnnotations.initMocks(this)
         SchedulersTrampoline.setup()
-        viewModel = FishViewModel(useCase)
+        viewModel = FishViewModel(fishUseCase, optionAreaUseCase)
         viewModel.singleLiveEvent.observeForever(observer)
         viewModel.singleLiveEvent.observeForever(observer)
     }
@@ -40,13 +42,13 @@ class FishViewModelTest {
     @Test
     fun `search fish price and return list of fish price`() {
 
-        `when`(useCase.execute(FishUseCase.Params(queryPrice))).thenReturn(
+        `when`(fishUseCase.execute(FishUseCase.Params(queryPrice))).thenReturn(
             Single.just(dummyFishUiModelList)
         )
 
         viewModel.fishPrice(queryPrice)
 
-        verify(useCase, atLeastOnce()).execute(FishUseCase.Params(queryPrice))
+        verify(fishUseCase, atLeastOnce()).execute(FishUseCase.Params(queryPrice))
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
         dummyFishUiModelList.map { fishUiModel ->
@@ -55,44 +57,62 @@ class FishViewModelTest {
             )
         }
 
-        verifyNoMoreInteractions(useCase, observer)
-        clearInvocations(useCase, observer)
+        verifyNoMoreInteractions(fishUseCase, observer)
+        clearInvocations(fishUseCase, observer)
     }
 
     @Test
     fun `search fish price and return empty list of fish price`() {
 
-        `when`(useCase.execute(FishUseCase.Params(queryPrice))).thenReturn(
+        `when`(fishUseCase.execute(FishUseCase.Params(queryPrice))).thenReturn(
             Single.just(emptyList())
         )
 
         viewModel.fishPrice(queryPrice)
 
-        verify(useCase, atLeastOnce()).execute(FishUseCase.Params(queryPrice))
+        verify(fishUseCase, atLeastOnce()).execute(FishUseCase.Params(queryPrice))
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowEmpty)
 
-        verifyNoMoreInteractions(useCase, observer)
-        clearInvocations(useCase, observer)
+        verifyNoMoreInteractions(fishUseCase, observer)
+        clearInvocations(fishUseCase, observer)
     }
 
     @Test
     fun `search fish price and return error state`() {
 
-        `when`(useCase.execute(FishUseCase.Params(queryPrice))).thenReturn(
+        `when`(fishUseCase.execute(FishUseCase.Params(queryPrice))).thenReturn(
             Single.error(throwable)
         )
 
         viewModel.fishPrice(queryPrice)
 
-        verify(useCase, atLeastOnce()).execute(FishUseCase.Params(queryPrice))
+        verify(fishUseCase, atLeastOnce()).execute(FishUseCase.Params(queryPrice))
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.Error(throwable))
 
-        verifyNoMoreInteractions(useCase, observer)
-        clearInvocations(useCase, observer)
+        verifyNoMoreInteractions(fishUseCase, observer)
+        clearInvocations(fishUseCase, observer)
+    }
+
+    @Test
+    fun `get option area and return list of option area`() {
+
+        `when`(optionAreaUseCase.execute(Unit)).thenReturn(
+            Single.just(dummyOptionAreaUiModelList)
+        )
+
+        viewModel.optionArea()
+
+        verify(optionAreaUseCase, atLeastOnce()).execute(Unit)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.Success(dummyOptionAreaUiModelList))
+
+        verifyNoMoreInteractions(optionAreaUseCase, observer)
+        clearInvocations(optionAreaUseCase, observer)
     }
 
     @After

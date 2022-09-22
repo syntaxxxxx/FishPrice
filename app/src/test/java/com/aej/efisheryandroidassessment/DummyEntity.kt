@@ -2,6 +2,7 @@ package com.aej.efisheryandroidassessment
 
 import com.aej.efisheryandroidassessment.domain.entity.FishDomainModel
 import com.aej.efisheryandroidassessment.data.entity.FishDtoBean
+import com.aej.efisheryandroidassessment.data.entity.OptionAreaDtoBean
 import com.aej.efisheryandroidassessment.presentation.FishUiModel
 
 val dummyListFishDtoBean = listOf(
@@ -40,5 +41,12 @@ val dummyFishUiModelList = listOf(
         price = "7400",
         parsedDate = "2022-01-04T23:54:44Z",
         timestamp = "1641340484994"
+    )
+)
+
+val dummyOptionAreaDtoBean = listOf(
+    OptionAreaDtoBean(
+        province = "ACEH",
+        city = "ACEH KOTA"
     )
 )

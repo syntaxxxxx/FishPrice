@@ -15,6 +15,8 @@ class OptionAreaUseCaseTest {
     private val repository = mock(FishRepository::class.java)
     private lateinit var useCase: OptionAreaUseCase
 
+    private val throwable = Throwable("Errors")
+
     @Before
     fun setup() {
         useCase = OptionAreaUseCase(repository)
@@ -40,6 +42,24 @@ class OptionAreaUseCaseTest {
         }
 
         verify(repository, atLeastOnce()).optionArea()
+    }
+
+    @Test
+    fun `get option area from repository with errors`() {
+        `when`(repository.optionArea()).thenReturn(
+            Single.error(throwable)
+        )
+
+        useCase.execute(Unit).test().apply {
+            assertError(throwable)
+        }
+
+        verify(repository, atLeastOnce()).optionArea()
+    }
+
+    @After
+    fun tearDown() {
+        SchedulersTrampoline.tearDown()
     }
 
 }

@@ -135,6 +135,24 @@ class FishViewModelTest {
         clearInvocations(optionAreaUseCase, observer)
     }
 
+    @Test
+    fun `get option area and return error state`() {
+
+        `when`(optionAreaUseCase.execute(Unit)).thenReturn(
+            Single.error(throwable)
+        )
+
+        viewModel.optionArea()
+
+        verify(optionAreaUseCase, atLeastOnce()).execute(Unit)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.Error(throwable))
+
+        verifyNoMoreInteractions(fishUseCase, observer)
+        clearInvocations(fishUseCase, observer)
+    }
+
     @After
     fun tearDown() {
         SchedulersTrampoline.tearDown()

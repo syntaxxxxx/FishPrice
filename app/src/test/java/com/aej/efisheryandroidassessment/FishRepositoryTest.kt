@@ -56,4 +56,25 @@ class FishRepositoryTest {
         Mockito.verify(dataSource, Mockito.atLeastOnce()).fishPrice(queryPrice)
     }
 
+    @Test
+    fun `get option area from remote with success`() {
+        Mockito.`when`(dataSource.optionArea()).thenReturn(
+            Single.just(
+                dummyOptionAreaDtoBean
+            )
+        )
+
+        repository.optionArea().test().apply {
+            assertValue { optionAreaDomainModelList ->
+                println("data nih 1$optionAreaDomainModelList")
+                println("data nih 2$dummyOptionAreaDomainModelList")
+                optionAreaDomainModelList == dummyOptionAreaDomainModelList
+            }
+            assertComplete()
+            assertNoErrors()
+        }
+
+        Mockito.verify(dataSource, Mockito.atLeastOnce()).optionArea()
+    }
+
 }

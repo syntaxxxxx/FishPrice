@@ -109,7 +109,27 @@ class FishViewModelTest {
         verify(optionAreaUseCase, atLeastOnce()).execute(Unit)
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
-        verify(observer, atLeastOnce()).onChanged(FishUiState.Success(dummyOptionAreaUiModelList))
+        dummyOptionAreaUiModelList.map { optionAreaUiModelList ->
+            verify(observer, atLeastOnce()).onChanged(FishUiState.Success(optionAreaUiModelList))
+        }
+
+        verifyNoMoreInteractions(optionAreaUseCase, observer)
+        clearInvocations(optionAreaUseCase, observer)
+    }
+
+    @Test
+    fun `get option area and return empty list of option area`() {
+
+        `when`(optionAreaUseCase.execute(Unit)).thenReturn(
+            Single.just(emptyList())
+        )
+
+        viewModel.optionArea()
+
+        verify(optionAreaUseCase, atLeastOnce()).execute(Unit)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
+        verify(observer, atLeastOnce()).onChanged(FishUiState.ShowEmpty)
 
         verifyNoMoreInteractions(optionAreaUseCase, observer)
         clearInvocations(optionAreaUseCase, observer)

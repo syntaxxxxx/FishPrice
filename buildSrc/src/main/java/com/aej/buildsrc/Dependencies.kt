@@ -20,10 +20,14 @@ object Kotlin {}
 object Android {
 
     private const val coreKtxVersion = "1.7.0"
+    private const val fastAdapterVersion = "5.3.2"
     const val coreKtx = "androidx.core:core-ktx:$coreKtxVersion"
     const val appCompat = "androidx.appcompat:appcompat:1.5.1"
     const val material = "com.google.android.material:material:1.6.1"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0"
+    const val fastAdapter = "com.mikepenz:fastadapter:$fastAdapterVersion"
+    const val fastAdapterBinding = "com.mikepenz:fastadapter-extensions-binding:$fastAdapterVersion"
+    const val fastAdapterUtils = "com.mikepenz:fastadapter-extensions-utils:$fastAdapterVersion"
 
     object Jetpack {
         const val activityKtx = "androidx.activity:activity-ktx:1.2.3"
@@ -56,6 +60,7 @@ object Android {
     object ReactiveX {
         const val rxJava = "io.reactivex.rxjava3:rxjava:3.0.0"
         const val rxAndroid = "io.reactivex.rxjava3:rxandroid:3.0.0"
+        const val rxBinding = "com.jakewharton.rxbinding4:rxbinding:4.0.0"
     }
 
     object DI {

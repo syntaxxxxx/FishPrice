@@ -85,7 +85,12 @@ dependencies {
 
     implementation(com.aej.buildsrc.Android.ReactiveX.rxJava)
     implementation(com.aej.buildsrc.Android.ReactiveX.rxAndroid)
+    implementation(com.aej.buildsrc.Android.ReactiveX.rxBinding)
 
     implementation(com.aej.buildsrc.Android.DI.hiltAndroid)
     kapt(com.aej.buildsrc.Android.DI.hiltCompiler)
+
+    implementation(com.aej.buildsrc.Android.fastAdapter)
+    implementation(com.aej.buildsrc.Android.fastAdapterBinding)
+    implementation(com.aej.buildsrc.Android.fastAdapterUtils)
 }

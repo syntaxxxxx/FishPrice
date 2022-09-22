@@ -16,6 +16,8 @@ class FishUseCaseTest {
 
     private val throwable = Throwable("Errors")
 
+    private val queryPrice = "7400"
+
     @Before
     fun setup() {
         useCase = FishUseCase(repository)
@@ -24,13 +26,13 @@ class FishUseCaseTest {
 
     @Test
     fun `search fish price from repository with success`() {
-        `when`(repository.fishPrice()).thenReturn(
+        `when`(repository.fishPrice(queryPrice)).thenReturn(
             Single.just(
                 dummyListFishDomainModel
             )
         )
 
-        useCase.execute(Unit).test().apply {
+        useCase.execute(FishUseCase.Params(queryPrice)).test().apply {
             assertValue { fishUiModelList ->
                 println("data nih 1$fishUiModelList")
                 println("data nih 2$dummyFishUiModelList")
@@ -40,21 +42,21 @@ class FishUseCaseTest {
             assertNoErrors()
         }
 
-        verify(repository, atLeastOnce()).fishPrice()
+        verify(repository, atLeastOnce()).fishPrice(queryPrice)
     }
 
 
     @Test
     fun `search fish price form repository with errors`() {
-        `when`(repository.fishPrice()).thenReturn(
+        `when`(repository.fishPrice(queryPrice)).thenReturn(
             Single.error(throwable)
         )
 
-        useCase.execute(Unit).test().apply {
+        useCase.execute(FishUseCase.Params(queryPrice)).test().apply {
             assertError(throwable)
         }
 
-        verify(repository, atLeastOnce()).fishPrice()
+        verify(repository, atLeastOnce()).fishPrice(queryPrice)
     }
 
     @After

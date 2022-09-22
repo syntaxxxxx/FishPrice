@@ -16,7 +16,9 @@ class RemoteDataSourceTest {
     private val fishService = mock(FishService::class.java)
     private lateinit var dataSource: RemoteDataSource
 
-    val throwable = Throwable("Errors")
+    private val throwable = Throwable("Errors")
+
+    private val queryPrice = "7400"
 
     @Before
     fun setup() {
@@ -25,7 +27,7 @@ class RemoteDataSourceTest {
 
     @Test
     fun `search fish price form service with success`() {
-        `when`(fishService.fishPrice()).thenReturn(
+        `when`(fishService.fishPrice(queryPrice)).thenReturn(
             Single.just(
                 dummyListFishDtoBean
             )
@@ -34,7 +36,7 @@ class RemoteDataSourceTest {
         val type = object : TypeToken<List<FishDtoBean>>(){}.type
         val validJson  = loadEmptyObjectListJson<FishDtoBean>(javaClass.classLoader, "fish_price.json", type)
 
-        dataSource.fishPrice().test().apply {
+        dataSource.fishPrice(queryPrice).test().apply {
             assertValue { listFishDtoBean ->
                 println("data nih 1$listFishDtoBean")
                 println("data nih 2$validJson")
@@ -44,20 +46,20 @@ class RemoteDataSourceTest {
             assertNoErrors()
         }
 
-        verify(fishService, atLeastOnce()).fishPrice()
+        verify(fishService, atLeastOnce()).fishPrice(queryPrice)
     }
 
     @Test
     fun `search fish price form service with errors`() {
-        `when`(fishService.fishPrice()).thenReturn(
+        `when`(fishService.fishPrice(queryPrice)).thenReturn(
             Single.error(throwable)
         )
 
-        dataSource.fishPrice().test().apply {
+        dataSource.fishPrice(queryPrice).test().apply {
             assertError(throwable)
         }
 
-        verify(fishService, atLeastOnce()).fishPrice()
+        verify(fishService, atLeastOnce()).fishPrice(queryPrice)
     }
 
 }

@@ -15,6 +15,8 @@ class FishRepositoryTest {
 
     private val throwable = Throwable("Errors")
 
+    private val queryPrice = "7400"
+
     @Before
     fun setup() {
         repository = FishRepositoryImpl(dataSource = dataSource)
@@ -22,13 +24,13 @@ class FishRepositoryTest {
 
     @Test
     fun `search fish price from remote with success`() {
-        Mockito.`when`(dataSource.fishPrice()).thenReturn(
+        Mockito.`when`(dataSource.fishPrice(queryPrice)).thenReturn(
             Single.just(
                 dummyListFishDtoBean
             )
         )
 
-        repository.fishPrice().test().apply {
+        repository.fishPrice(queryPrice).test().apply {
             assertValue { listFishDomainModel ->
                 println("data nih 1$listFishDomainModel")
                 println("data nih 2$dummyListFishDomainModel")
@@ -38,20 +40,20 @@ class FishRepositoryTest {
             assertNoErrors()
         }
 
-        Mockito.verify(dataSource, Mockito.atLeastOnce()).fishPrice()
+        Mockito.verify(dataSource, Mockito.atLeastOnce()).fishPrice(queryPrice)
     }
 
     @Test
     fun `search fish price from remote with errors`() {
-        Mockito.`when`(dataSource.fishPrice()).thenReturn(
+        Mockito.`when`(dataSource.fishPrice(queryPrice)).thenReturn(
             Single.error(throwable)
         )
 
-        repository.fishPrice().test().apply {
+        repository.fishPrice(queryPrice).test().apply {
             assertError(throwable)
         }
 
-        Mockito.verify(dataSource, Mockito.atLeastOnce()).fishPrice()
+        Mockito.verify(dataSource, Mockito.atLeastOnce()).fishPrice(queryPrice)
     }
 
 }

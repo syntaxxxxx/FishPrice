@@ -5,6 +5,7 @@ import com.aej.efisheryandroidassessment.data.FishService
 import com.aej.efisheryandroidassessment.data.source.RemoteDataSource
 import com.aej.efisheryandroidassessment.data.source.RemoteDataSourceImpl
 import com.aej.efisheryandroidassessment.data.entity.FishDtoBean
+import com.aej.efisheryandroidassessment.data.entity.OptionAreaDtoBean
 import com.google.gson.reflect.TypeToken
 import io.reactivex.rxjava3.core.Single
 import org.junit.Before
@@ -60,6 +61,30 @@ class RemoteDataSourceTest {
         }
 
         verify(fishService, atLeastOnce()).fishPrice(queryPrice)
+    }
+
+    @Test
+    fun `get option area from service with success`() {
+        `when`(fishService.optionArea()).thenReturn(
+            Single.just(
+                dummyOptionAreaDtoBean
+            )
+        )
+
+        val type = object : TypeToken<List<OptionAreaDtoBean>>(){}.type
+        val validJson  = loadEmptyObjectListJson<OptionAreaDtoBean>(javaClass.classLoader, "option_area.json", type)
+
+        dataSource.optionArea().test().apply {
+            assertValue { optionAreaDtoBeanList ->
+                println("data nih 1$optionAreaDtoBeanList")
+                println("data nih 2$validJson")
+                optionAreaDtoBeanList == validJson
+            }
+            assertComplete()
+            assertNoErrors()
+        }
+
+        verify(fishService, atLeastOnce()).optionArea()
     }
 
 }

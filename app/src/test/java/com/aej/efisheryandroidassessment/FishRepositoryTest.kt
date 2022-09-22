@@ -77,4 +77,17 @@ class FishRepositoryTest {
         Mockito.verify(dataSource, Mockito.atLeastOnce()).optionArea()
     }
 
+    @Test
+    fun `get option area from remote with errors`() {
+        Mockito.`when`(dataSource.optionArea()).thenReturn(
+            Single.error(throwable)
+        )
+
+        repository.optionArea().test().apply {
+            assertError(throwable)
+        }
+
+        Mockito.verify(dataSource, Mockito.atLeastOnce()).optionArea()
+    }
+
 }

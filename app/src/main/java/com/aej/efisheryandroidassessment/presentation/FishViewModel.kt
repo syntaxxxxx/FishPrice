@@ -12,12 +12,13 @@ class FishViewModel @Inject constructor(private val useCase: FishUseCase) :
 
     fun fishPrice(query: String) {
         useCase.execute(FishUseCase.Params(query = query))
-            .doOnSubscribe { singleLiveEvent.value = FishUiState.ShowLoading }
-            .doOnTerminate { singleLiveEvent.value = FishUiState.HideLoading }
+            .doOnSubscribe { singleLiveEvent.postValue(FishUiState.ShowLoading) }
+            .doOnTerminate { singleLiveEvent.postValue(FishUiState.HideLoading) }
             .subscribe({ userList ->
+                println("thread nih${Thread.currentThread().name}")
                 onSuccess(userList)
             }, { throwable ->
-                singleLiveEvent.value = FishUiState.Error(throwable)
+                singleLiveEvent.postValue(FishUiState.Error(throwable))
             }).let(disposable::add)
     }
 

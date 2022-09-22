@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">EfisheryAndroidAssessment</string>
+    <string name="search_fish_price">Search Fish Price</string>
+    <string name="text_not_found">Data Tidak Ditemukan</string>
+    <string name="something_went_wrong">Sedang Terjadi Kesalahan</string>
 </resources>

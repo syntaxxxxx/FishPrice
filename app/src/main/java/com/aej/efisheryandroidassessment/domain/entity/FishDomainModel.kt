@@ -1,6 +1,5 @@
 package com.aej.efisheryandroidassessment.domain.entity
 
-import com.aej.efisheryandroidassessment.data.entity.FishDtoBean
 import com.aej.efisheryandroidassessment.presentation.FishUiModel
 
 data class FishDomainModel(

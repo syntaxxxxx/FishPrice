@@ -87,4 +87,17 @@ class RemoteDataSourceTest {
         verify(fishService, atLeastOnce()).optionArea()
     }
 
+    @Test
+    fun `get option area from service with errors`() {
+        `when`(fishService.optionArea()).thenReturn(
+            Single.error(throwable)
+        )
+
+        dataSource.optionArea().test().apply {
+            assertError(throwable)
+        }
+
+        verify(fishService, atLeastOnce()).optionArea()
+    }
+
 }

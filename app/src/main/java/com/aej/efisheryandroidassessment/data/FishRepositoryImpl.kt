@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 class FishRepositoryImpl @Inject constructor(private val dataSource: RemoteDataSource): FishRepository {
 
-    override fun fishPrice(): Single<List<FishDomainModel>> {
-        return dataSource.fishPrice().map {
+    override fun fishPrice(query: String): Single<List<FishDomainModel>> {
+        return dataSource.fishPrice(query).map {
             it.mapToFishDomainModel()
         }
     }

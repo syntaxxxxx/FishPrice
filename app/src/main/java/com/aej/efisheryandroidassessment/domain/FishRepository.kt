@@ -4,5 +4,5 @@ import com.aej.efisheryandroidassessment.domain.entity.FishDomainModel
 import io.reactivex.rxjava3.core.Single
 
 interface FishRepository {
-    fun fishPrice(): Single<List<FishDomainModel>>
+    fun fishPrice(query: String): Single<List<FishDomainModel>>
 }

@@ -23,6 +23,8 @@ class FishViewModelTest {
 
     private val throwable = Throwable("Errors")
 
+    private val queryPrice = "7400"
+
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
@@ -36,33 +38,37 @@ class FishViewModelTest {
     }
 
     @Test
-    fun`search fish price and return list of fish price`() {
+    fun `search fish price and return list of fish price`() {
 
-        `when`(useCase.execute(Unit)).thenReturn(
+        `when`(useCase.execute(FishUseCase.Params(queryPrice))).thenReturn(
             Single.just(dummyFishUiModelList)
         )
 
-        viewModel.fishPrice()
+        viewModel.fishPrice(queryPrice)
 
-        verify(useCase, atLeastOnce()).execute(Unit)
+        verify(useCase, atLeastOnce()).execute(FishUseCase.Params(queryPrice))
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
-        verify(observer, atLeastOnce()).onChanged(FishUiState.Success(dummyFishUiModelList))
+        dummyFishUiModelList.map { fishUiModel ->
+            verify(observer, atLeastOnce()).onChanged(
+                FishUiState.Success(fishUiModel)
+            )
+        }
 
         verifyNoMoreInteractions(useCase, observer)
         clearInvocations(useCase, observer)
     }
 
     @Test
-    fun`search fish price and return empty list of fish price`() {
+    fun `search fish price and return empty list of fish price`() {
 
-        `when`(useCase.execute(Unit)).thenReturn(
+        `when`(useCase.execute(FishUseCase.Params(queryPrice))).thenReturn(
             Single.just(emptyList())
         )
 
-        viewModel.fishPrice()
+        viewModel.fishPrice(queryPrice)
 
-        verify(useCase, atLeastOnce()).execute(Unit)
+        verify(useCase, atLeastOnce()).execute(FishUseCase.Params(queryPrice))
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowEmpty)
@@ -72,15 +78,15 @@ class FishViewModelTest {
     }
 
     @Test
-    fun`search fish price and return error state`() {
+    fun `search fish price and return error state`() {
 
-        `when`(useCase.execute(Unit)).thenReturn(
+        `when`(useCase.execute(FishUseCase.Params(queryPrice))).thenReturn(
             Single.error(throwable)
         )
 
-        viewModel.fishPrice()
+        viewModel.fishPrice(queryPrice)
 
-        verify(useCase, atLeastOnce()).execute(Unit)
+        verify(useCase, atLeastOnce()).execute(FishUseCase.Params(queryPrice))
         verify(observer, atLeastOnce()).onChanged(FishUiState.ShowLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.HideLoading)
         verify(observer, atLeastOnce()).onChanged(FishUiState.Error(throwable))

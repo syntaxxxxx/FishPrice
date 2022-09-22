@@ -3,6 +3,7 @@ package com.aej.efisheryandroidassessment
 import com.aej.efisheryandroidassessment.domain.entity.FishDomainModel
 import com.aej.efisheryandroidassessment.data.entity.FishDtoBean
 import com.aej.efisheryandroidassessment.data.entity.OptionAreaDtoBean
+import com.aej.efisheryandroidassessment.domain.entity.OptionAreaDomainModel
 import com.aej.efisheryandroidassessment.presentation.FishUiModel
 
 val dummyListFishDtoBean = listOf(
@@ -46,6 +47,13 @@ val dummyFishUiModelList = listOf(
 
 val dummyOptionAreaDtoBean = listOf(
     OptionAreaDtoBean(
+        province = "ACEH",
+        city = "ACEH KOTA"
+    )
+)
+
+val dummyOptionAreaDomainModelList = listOf(
+    OptionAreaDomainModel(
         province = "ACEH",
         city = "ACEH KOTA"
     )
